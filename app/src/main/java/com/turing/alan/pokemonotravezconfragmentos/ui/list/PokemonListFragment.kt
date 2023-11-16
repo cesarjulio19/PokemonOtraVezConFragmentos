@@ -11,14 +11,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.turing.alan.pokemonotravezconfragmentos.data.api.PokemonApiModel
+import com.turing.alan.pokemonotravezconfragmentos.data.api.PokemonRepository
 import com.turing.alan.pokemonotravezconfragmentos.data.model.Pokemon
 import com.turing.alan.pokemonotravezconfragmentos.databinding.FragmentPokemonListBinding
+import com.turing.alan.pokemonotravezconfragmentos.ui.adapter.PokemonAdapter
 
 
 class PokemonListFragment : Fragment() {
     private val viewModel:PokemonListViewModel by viewModels()
     //private val viewModel:PokemonListViewModel by activityViewModels()
     private lateinit var binding: FragmentPokemonListBinding
+    private val repository = PokemonRepository.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,11 +39,19 @@ class PokemonListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val observer = Observer<Pokemon> {
-            binding.pokemonIdText.text = it.id.toString()
-            binding.pokemonNameText.text = it.name
+        val recyclerView = binding.pokemonList
+        val adapter = PokemonAdapter()
+        recyclerView.adapter = adapter
+
+        viewModel.pokemonUi.observe(viewLifecycleOwner) { pokemonList ->
+
+            adapter.submitList(pokemonList)
         }
 
-        viewModel.pokemonUi.observe(viewLifecycleOwner,observer)
+
     }
+
+
+
+
 }
