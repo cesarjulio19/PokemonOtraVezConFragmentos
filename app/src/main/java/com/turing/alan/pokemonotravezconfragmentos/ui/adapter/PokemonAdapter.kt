@@ -1,11 +1,15 @@
 package com.turing.alan.pokemonotravezconfragmentos.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.turing.alan.pokemonotravezconfragmentos.data.model.Pokemon
 import com.turing.alan.pokemonotravezconfragmentos.databinding.PokemonItemBinding
+import android.widget.ImageView
+import com.turing.alan.pokemonotravezconfragmentos.R
 
 class PokemonAdapter(private val onShowDetail:(n:String,v: View)->Unit)
     : RecyclerView.Adapter<PokemonAdapter.PokemonItemViewHolder>() {
@@ -16,9 +20,12 @@ class PokemonAdapter(private val onShowDetail:(n:String,v: View)->Unit)
         RecyclerView.ViewHolder(binding.root){
         fun bind(p: Pokemon){
             binding.nameText.text =p.name
-            binding.idp.text = p.id.toString()
+            binding.circleImageView.load(p.image) {
 
-           binding.nameText.setOnClickListener{
+                placeholder(R.drawable.ic_launcher_background)
+            }
+
+            binding.nameText.setOnClickListener{
                onShowDetail(p.name,binding.root)
            }
         }
