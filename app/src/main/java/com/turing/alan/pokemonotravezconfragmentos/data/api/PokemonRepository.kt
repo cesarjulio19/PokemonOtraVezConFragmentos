@@ -20,10 +20,13 @@ interface  PokemonApi {
 
 
 class PokemonRepository private constructor(private val api:PokemonApi) {
-
     private val _pokemon = MutableLiveData<PokemonListApiModel>()
     val pokemon: LiveData<PokemonListApiModel>
         get() = _pokemon
+
+    private val _pokemonD = MutableLiveData<PokemonApiModel>()
+    val pokemonD: LiveData<PokemonApiModel>
+        get() = _pokemonD
 
     companion object {
         private var _INSTANCE: PokemonRepository? = null
@@ -63,6 +66,16 @@ class PokemonRepository private constructor(private val api:PokemonApi) {
         val pokemonListApiModel = PokemonListApiModel(list)
 
         _pokemon.value = pokemonListApiModel
+    }
+    @SuppressLint("SuspiciousIndentation")
+    suspend fun getPokemon(name:String) {
+        val DetailResponse:PokemonDetailResponse = api.fetchPokemon(name)
+        val pokemonApiModel = PokemonApiModel(DetailResponse.id,
+            DetailResponse.name,
+            DetailResponse.weight,
+            DetailResponse.height,
+            DetailResponse.sprites.front_default)
+        _pokemonD.value = pokemonApiModel
     }
 
 

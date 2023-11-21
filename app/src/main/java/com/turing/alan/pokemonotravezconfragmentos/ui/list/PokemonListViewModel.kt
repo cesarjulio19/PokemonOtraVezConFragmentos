@@ -19,7 +19,7 @@ class PokemonListViewModel(): ViewModel() {
     private val observer = Observer<PokemonListApiModel> {
         val list:MutableList<Pokemon> = mutableListOf()
         it.list.forEach {
-            val pokemon = Pokemon(it.id, it.name)
+            val pokemon = Pokemon(it.id, it.name, it.front)
             list.add(pokemon)
         }
         _pokemonUi.value = list

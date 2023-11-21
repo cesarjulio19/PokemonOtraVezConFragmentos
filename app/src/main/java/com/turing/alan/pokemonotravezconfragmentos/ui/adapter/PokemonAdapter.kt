@@ -1,12 +1,13 @@
 package com.turing.alan.pokemonotravezconfragmentos.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.turing.alan.pokemonotravezconfragmentos.data.model.Pokemon
 import com.turing.alan.pokemonotravezconfragmentos.databinding.PokemonItemBinding
 
-class PokemonAdapter()
+class PokemonAdapter(private val onShowDetail:(n:String,v: View)->Unit)
     : RecyclerView.Adapter<PokemonAdapter.PokemonItemViewHolder>() {
 
     private var pokemonList: List<Pokemon> = emptyList()
@@ -16,6 +17,10 @@ class PokemonAdapter()
         fun bind(p: Pokemon){
             binding.nameText.text =p.name
             binding.idp.text = p.id.toString()
+
+           binding.nameText.setOnClickListener{
+               onShowDetail(p.name,binding.root)
+           }
         }
 
     }

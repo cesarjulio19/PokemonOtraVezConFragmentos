@@ -40,7 +40,7 @@ class PokemonListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView = binding.pokemonList
-        val adapter = PokemonAdapter()
+        val adapter = PokemonAdapter(::onShowDetail)
         recyclerView.adapter = adapter
 
         viewModel.pokemonUi.observe(viewLifecycleOwner) { pokemonList ->
@@ -49,6 +49,12 @@ class PokemonListFragment : Fragment() {
         }
 
 
+    }
+
+    private fun onShowDetail(name: String,view:View) {
+        val action = PokemonListFragmentDirections
+            .actionPokemonListFragmentToPokemonDetailFragment(name)
+        view.findNavController().navigate(action)
     }
 
 
